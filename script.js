@@ -2,84 +2,53 @@ var url = 'https://www.filltext.com/?rows=32&id=%7Bnumber%7C1000%7D&firstName=%7
 var tableData = [];
 
 $(document).ready(function(){
-    var tabData = document.getElementById("table-data");
-    var table = document.createElement("table");
-    tabData.appendChild(table);
-    var tBody = document.createElement("tbody");
-    table.appendChild(tBody);
-
-    var infoWrap = document.getElementById("info-wrapper");
-    var h1Title = document.createElement("h1");
-    h1Title.innerText = "Details";
-    infoWrap.appendChild(h1Title);
-    var paraText = document.createElement("p");
-    paraText.innerText = "Click on a table item to get detailed information";
-    infoWrap.appendChild(paraText);
-    var infoCont = document.createElement("div");
-    infoCont.id = "info-content";
-    infoWrap.appendChild(infoCont);
-    var userSel = document.createElement("div");
-    userSel.innerHTML = "<b>User selected:</b> ";
-    infoCont.appendChild(userSel);
-    var descWrap = document.createElement("div");
-    infoCont.appendChild(descWrap);
-    var descTitle = document.createElement("b");
-    descTitle.innerText = "Description: "
-    descWrap.appendChild(descTitle);
-    var textDetail = document.createElement("textarea");
-    textDetail.cols = "50";
-    textDetail.rows = "5";
-    textDetail.readOnly = true;
-    descWrap.appendChild(textDetail);
-    var addVar = document.createElement("div");
-    addVar.innerHTML = "<b>Address:</b> ";
-    infoCont.appendChild(addVar);
-    var cityVar = document.createElement("div");
-    cityVar.innerHTML = "<b>City:</b> ";
-    infoCont.appendChild(cityVar);
-    var stateVar = document.createElement("div");
-    stateVar.innerHTML = "<b>State:</b> ";
-    infoCont.appendChild(stateVar);
-    var zipVar = document.createElement("div");
-    zipVar.innerHTML = "<b>Zip:</b> ";
-    infoCont.appendChild(zipVar);
+    $("<table id='tabData'></table>").appendTo('#table-data');
+    tBody = $('<tbody></tbody>').appendTo('#tabData');
+    $('<h1>Details</h1>').appendTo('#info-wrapper');
+    $('<p>Click on a table item to get detailed information</p>').appendTo('#info-wrapper');
+    infoCont = $('<div id="info-content"></div>').appendTo('#info-wrapper');
+    $('<div id="selUser"><b>User selected:</b> </div>').appendTo(infoCont);
+    $('<div id="descWrap"><b>Description: </b></div>').appendTo(infoCont);
+    $('<textarea id="descDetail" cols="50" rows="5" readOnly></textarea>').appendTo('#descWrap');
+    addVar = $('<div><b>Address:</b> </div>').appendTo(infoCont);
+    cityVar = $('<div><b>City:</b> </div>').appendTo(infoCont);
+    stateVar = $('<div><b>State:</b> </div>').appendTo(infoCont);
+    zipVar = $('<div><b>Zip:</b> </div>').appendTo(infoCont);
+    
 
 
 
     function createRow(data,index){
-        var row = document.createElement("tr");
-        row.className = "data-row";
+        row = $('<tr class="data-row"></tr>');
 
         for(var i=1; i<=5; i++){
-            var idData = document.createElement('td');
-            idData.className = "column"+i;
+            idData = $('<td class="column'+i+'"></td>').appendTo(row)
             switch(i){
                 case 1:
-                    idData.innerText = data.id;
+                    idData[0].innerText = data.id;
                     break;
                 case 2:
-                    idData.innerText = data.firstName;
+                    idData[0].innerText = data.firstName;
                     break;
                 case 3:
-                    idData.innerText = data.lastName;
+                    idData[0].innerText = data.lastName;
                     break;
                 case 4:
-                    idData.innerText = data.email;
+                    idData[0].innerText = data.email;
                     break;
                 case 5:
-                    idData.innerText = data.phone;
+                    idData[0].innerText = data.phone;
                     break;
             }
-            row.appendChild(idData);
         }
-        row.addEventListener('click', function(){
+        row.click( function(){
             var temp1 = document.getElementsByClassName("data-row");
-            userSel.innerHTML = "<b>User selected:</b> "+data.firstName+" "+data.lastName+"</div>";
-            textDetail.innerText = data.description;
-            addVar.innerHTML = "<b>Address:</b> "+data.address.streetAddress;
-            cityVar.innerHTML = "<b>City:</b> "+data.address.city;
-            stateVar.innerHTML = "<b>State:</b> "+data.address.state;
-            zipVar.innerHTML = "<b>Zip:</b> "+data.address.zip;
+            $('#selUser')[0].innerHTML = "<b>User selected:</b> "+data.firstName+" "+data.lastName+"</div>";
+            $('#descDetail')[0].innerText = data.description;
+            addVar[0].innerHTML = "<b>Address:</b> "+data.address.streetAddress;
+            cityVar[0].innerHTML = "<b>City:</b> "+data.address.city;
+            stateVar[0].innerHTML = "<b>State:</b> "+data.address.state;
+            zipVar[0].innerHTML = "<b>Zip:</b> "+data.address.zip;
 
             for(var i=0; i<temp1.length; i++){
                 if(i === index){
@@ -92,7 +61,7 @@ $(document).ready(function(){
         })
 
 
-        tBody.appendChild(row);
+        tBody.append(row);
     }
 
 
@@ -100,59 +69,42 @@ $(document).ready(function(){
         for(var i=0; i<tableData.length; i++){
             createRow(tableData[i],i);
         }
-
-        userSel.innerHTML = "<b>User selected:</b> "+tableData[0].firstName+" "+tableData[0].lastName+"</div>";
-        textDetail.innerText = tableData[0].description;
-        addVar.innerHTML = "<b>Address:</b> "+tableData[0].address.streetAddress;
-        cityVar.innerHTML = "<b>City:</b> "+tableData[0].address.city;
-        stateVar.innerHTML = "<b>State:</b> "+tableData[0].address.state;
-        zipVar.innerHTML = "<b>Zip:</b> "+tableData[0].address.zip;
+        $('#selUser')[0].innerHTML = "<b>User selected:</b> "+tableData[0].firstName+" "+tableData[0].lastName+"</div>";
+        $('#descDetail')[0].innerText = tableData[0].description;
+        addVar[0].innerHTML = "<b>Address:</b> "+tableData[0].address.streetAddress;
+        cityVar[0].innerHTML = "<b>City:</b> "+tableData[0].address.city;
+        stateVar[0].innerHTML = "<b>State:</b> "+tableData[0].address.state;
+        zipVar[0].innerHTML = "<b>Zip:</b> "+tableData[0].address.zip;
         var temp = document.getElementsByClassName("data-row");
         temp[0].classList.add("active");
 
     }
 
 
-    // $.get( url, function( data,status ) {
-    //     if(status==="success"){ use
-    //         tableData = data;
-    //         createTableRow();
-    //     }
-    // });
-
-
-
-    var httpReq = new XMLHttpRequest();
-    httpReq.open('GET', url, true);
-    httpReq.setRequestHeader('Accept','application/json');
-    httpReq.setRequestHeader('Content-type','application/json');
-    httpReq.onreadystatechange = function(){
-        if(this.readyState === 2){
-            $('#overlay').show();
-        }
-        if(this.readyState === 4){
+    $.get( url, function( data,status ) {
+        if(status==="success"){
             $('#overlay').hide();
-            tableData = JSON.parse(this.responseText);
+            tableData = data;
             createTableRow();
         }
-    }
-    httpReq.send();
+    });
 
-    var searchFun = document.getElementById("search-box");
-    searchFun.onkeyup = function(e){
-        var inputVal = searchFun.value.toUpperCase();
-        trow = document.getElementsByTagName("tr");
-        for (i = 1; i <trow.length; i++) {
-            td = trow[i].getElementsByTagName("td")[1];
-            if (td) {
+
+    $('#search-box').keyup(function(){
+        var inputVal = $('#search-box')[0].value.toUpperCase();
+        var tRow = $('tr');
+        for (i = 1; i <tRow.length; i++) {
+            td = tRow[i].getElementsByTagName("td")[1];
+            if(td){
                 var txtVal = td.innerText;
                 if (txtVal.toUpperCase().indexOf(inputVal) > -1) {
-                    trow[i].style.display = "";
+                    tRow[i].style.display = "";
                 } else {
-                    trow[i].style.display = "none";
+                    tRow[i].style.display = "none";
                 }
             }
         }
-    }
+        
+    })
 
 })
