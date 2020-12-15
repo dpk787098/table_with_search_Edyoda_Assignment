@@ -113,26 +113,30 @@ $(document).ready(function(){
     }
 
 
-    $.get( url, function( data,status ) {
-        if(status==="success"){
-            tableData = data;
-            createTableRow();
-        }
-    });
-
-
-
-    // var httpReq = new XMLHttpRequest();
-    // httpReq.open('GET', url, true);
-    // httpReq.setRequestHeader('Accept','application/json');
-    // httpReq.setRequestHeader('Content-type','application/json');
-    // httpReq.onreadystatechange = function(){
-    //     if(this.readyState === 4){
-    //         tableData = JSON.parse(this.responseText);
+    // $.get( url, function( data,status ) {
+    //     if(status==="success"){ use
+    //         tableData = data;
     //         createTableRow();
     //     }
-    // }
-    // httpReq.send();
+    // });
+
+
+
+    var httpReq = new XMLHttpRequest();
+    httpReq.open('GET', url, true);
+    httpReq.setRequestHeader('Accept','application/json');
+    httpReq.setRequestHeader('Content-type','application/json');
+    httpReq.onreadystatechange = function(){
+        if(this.readyState === 2){
+            $('#overlay').show();
+        }
+        if(this.readyState === 4){
+            $('#overlay').hide();
+            tableData = JSON.parse(this.responseText);
+            createTableRow();
+        }
+    }
+    httpReq.send();
 
     var searchFun = document.getElementById("search-box");
     searchFun.onkeyup = function(e){
